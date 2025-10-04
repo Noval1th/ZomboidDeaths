@@ -294,8 +294,9 @@ sudo systemctl status zomboid-monitor.service
 ### Finding Your FTP Credentials
 
 **G-Portal:**
-1. Server dashboard → **"FTP"** tab
-2. Copy Host, Port, Username, Password
+1. Server dashboard -> Select your Gamecloud Server
+2. In the "Status" page, scroll down to "Access Data"
+3. Copy Host, Port, Username, Password
 
 **Other Hosts:**
 - Check hosting provider's control panel
