@@ -531,7 +531,6 @@ A: Yes! Just follow the Linux systemd instructions on your VPS.
 
 Contributions are welcome! Ideas:
 
-- [ ] Add more death cause detection (starvation, dehydration, falls)
 - [ ] Support for additional log formats
 - [ ] Web dashboard for viewing stats
 - [ ] Configurable leaderboard schedules
