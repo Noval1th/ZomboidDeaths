@@ -51,7 +51,7 @@ Automatically track player deaths on your Project Zomboid server and post notifi
    - **Name**: `zomboid-death-monitor`
    - **Runtime**: `Python 3`
    - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `Death_Monitor_Bot.py`
+   - **Start Command**: `python main.py`
    - **Instance Type**: `Free`
 
 ### 3. Add Environment Variables
