@@ -105,6 +105,8 @@ pause
 
 Replace the `your_*_here` values with your actual credentials.
 
+*As an optional note, use pythonw main.py in your .bat file to hide make this run without a window* 
+
 **Mac/Linux:**
 
 Create a file called `start_monitor.sh`:
