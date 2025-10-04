@@ -1,10 +1,10 @@
 # Project Zomboid Death Monitor
 
 Automatically track player deaths on your Project Zomboid server and post notifications to Discord with death counts, coordinates, and leaderboards!
-
 ![Discord Example](https://img.shields.io/badge/Discord-Webhook-7289DA?style=for-the-badge&logo=discord&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+[![Twitter](https://img.shields.io/badge/Twitter-@yourhandle-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://x.com/n0valith)
 
 ---
 
@@ -54,8 +54,8 @@ sudo apt install python3 python3-pip
 
 **Option A: Using Git**
 ```bash
-git clone https://github.com/Noval1th/ZomboidDeaths.git
-cd ZomboidDeaths
+git clone https://github.com/yourusername/zomboid-death-monitor.git
+cd zomboid-death-monitor
 ```
 
 **Option B: Manual Download**
@@ -99,13 +99,20 @@ set FTP_PASS=your_ftp_password_here
 set LOG_BASE_PATH=/Logs
 set CHECK_INTERVAL=30
 
-python main.py
-pause
+pythonw main.py
 ```
 
-Replace the `your_*_here` values with your actual credentials.
+**Then create a second file** called `start_monitor_hidden.vbs` (this will run it without a console window):
 
-*As an optional note, use pythonw main.py in your .bat file to hide make this run without a window. Just also replace pause with exit at the end of the file* 
+```vbscript
+Set WshShell = CreateObject("WScript.Shell")
+WshShell.Run "cmd /c start_monitor.bat", 0, False
+Set WshShell = Nothing
+```
+
+Replace the `your_*_here` values in the `.bat` file with your actual credentials.
+
+**Note:** `pythonw.exe` runs Python without a console window, and the VBScript wrapper prevents the batch file from showing a window.
 
 **Mac/Linux:**
 
@@ -131,7 +138,7 @@ chmod +x start_monitor.sh
 
 ### 6. Test It!
 
-**Windows:** Double-click `start_monitor.bat`  
+**Windows:** Double-click `start_monitor_hidden.vbs` (or `start_monitor.bat` if you want to see the console)  
 **Mac/Linux:** Run `./start_monitor.sh`
 
 You should see:
@@ -147,6 +154,8 @@ Tracking deaths for 0 players
 
 Waiting for deaths...
 ```
+
+**Note:** If you used `start_monitor_hidden.vbs`, you won't see a console window (that's intentional!). Check Task Manager for `pythonw.exe` to verify it's running.
 
 Have someone die in your server to test it! Within 30 seconds, you should see a Discord notification.
 
@@ -173,9 +182,9 @@ Have someone die in your server to test it! Within 30 seconds, you should see a 
 4. **Actions Tab**
    - Click **"New..."**
    - Action: **"Start a program"**
-   - Program/script: `C:\Windows\System32\cmd.exe`
-   - Add arguments: `/c "C:\path\to\your\start_monitor.bat"`
-   - Replace `C:\path\to\your\` with your actual path
+   - Program/script: Browse to your `start_monitor_hidden.vbs` file
+   - Example: `C:\zomboid-monitor\start_monitor_hidden.vbs`
+   - Leave "Add arguments" and "Start in" blank
    - Click **OK**
 
 5. **Conditions Tab**
@@ -189,7 +198,7 @@ Have someone die in your server to test it! Within 30 seconds, you should see a 
 
 **To test:** Restart your computer and check Task Scheduler's "Task Status" to verify it's running.
 
-### Mac - Using launchd (NOTE AI Wrote this ENTIRE section with no oversight by me because I don't have access to MacOS to test this process myself)
+### Mac - Using launchd
 
 1. Create a plist file at `~/Library/LaunchAgents/com.zomboid.deathmonitor.plist`:
 
@@ -226,7 +235,7 @@ launchctl load ~/Library/LaunchAgents/com.zomboid.deathmonitor.plist
 launchctl start com.zomboid.deathmonitor
 ```
 
-### Linux - Using systemd (NOTE AI Wrote this ENTIRE section with no oversight by me because I am too lazy to spin up an entire linux environment just to test this process myself)
+### Linux - Using systemd
 
 1. Create a service file at `/etc/systemd/system/zomboid-monitor.service`:
 
@@ -285,9 +294,8 @@ sudo systemctl status zomboid-monitor.service
 ### Finding Your FTP Credentials
 
 **G-Portal:**
-1. Server dashboard → Select the gamecloud server in question
-2. On the status page, scroll down to the "Access Data" Section
-3. Copy Host, Port, Username, Password
+1. Server dashboard → **"FTP"** tab
+2. Copy Host, Port, Username, Password
 
 **Other Hosts:**
 - Check hosting provider's control panel
@@ -367,6 +375,30 @@ Leaderboards are posted automatically:
 ### Checking if It's Running
 
 **Windows:**
+
+**Option 1: Task Manager**
+1. Press `Ctrl + Shift + Esc`
+2. Go to **Details** tab
+3. Look for `pythonw.exe` - if it's there, the bot is running!
+
+**Option 2: Check Discord**
+- Are death notifications appearing? Then it's working!
+
+**Option 3: Check death_stats.json**
+- Navigate to your project folder
+- Right-click `death_stats.json` → Properties
+- Check "Date Modified" - if it's recent (within last few minutes), the bot is active
+
+**Option 4: Create a Log File** (for troubleshooting)
+
+Modify your `start_monitor.bat` to save output:
+```batch
+pythonw main.py >> monitor_log.txt 2>&1
+```
+
+Then check `monitor_log.txt` to see all console output.
+
+**Mac:**
 - Check Task Manager → Details tab → Look for `python.exe`
 - Or check Task Scheduler status
 
@@ -391,8 +423,8 @@ The console window will show all activity:
 ### Stopping the Bot
 
 **Windows:**
-- Close the console window
-- Or: Task Scheduler → Right-click task → Disable
+- Open Task Manager → Details tab → Find `pythonw.exe` → Right-click → End Task
+- Or: Task Scheduler → Right-click your task → End or Disable
 
 **Mac:**
 ```bash
@@ -452,9 +484,10 @@ This bot should use almost nothing (<1% CPU, <50MB RAM). If you see high usage:
 
 ### Bot stops after closing terminal
 
-- Make sure you set up auto-start (see above)
-- On Windows, Task Scheduler should keep it running in background
-- Don't run from terminal if you want it persistent - use the batch file with Task Scheduler
+- This shouldn't happen if you're using `start_monitor_hidden.vbs`
+- Make sure you set up Task Scheduler auto-start
+- The VBScript launcher runs the bot in the background without a terminal
+- Check Task Manager for `pythonw.exe` to verify it's running
 
 ---
 
@@ -462,14 +495,16 @@ This bot should use almost nothing (<1% CPU, <50MB RAM). If you see high usage:
 
 ```
 zomboid-death-monitor/
-├── main.py              # Main bot script
-├── requirements.txt     # Python dependencies  
-├── README.md           # This file
-├── .gitignore          # Git ignore rules
-├── LICENSE             # MIT License
-├── start_monitor.bat   # Windows startup script (you create this)
-├── start_monitor.sh    # Mac/Linux startup script (you create this)
-└── death_stats.json    # Generated by bot (death counts & positions)
+├── main.py                    # Main bot script
+├── requirements.txt           # Python dependencies  
+├── README.md                  # This file
+├── .gitignore                 # Git ignore rules
+├── LICENSE                    # MIT License
+├── start_monitor.bat          # Windows startup script (you create this)
+├── start_monitor_hidden.vbs   # Windows hidden launcher (you create this)
+├── start_monitor.sh           # Mac/Linux startup script (you create this)
+├── monitor_log.txt            # Optional: log output (generated)
+└── death_stats.json           # Generated by bot (death counts & positions)
 ```
 
 ---
@@ -533,6 +568,7 @@ A: Yes! Just follow the Linux systemd instructions on your VPS.
 
 Contributions are welcome! Ideas:
 
+- [ ] Add more death cause detection (starvation, dehydration, falls)
 - [ ] Support for additional log formats
 - [ ] Web dashboard for viewing stats
 - [ ] Configurable leaderboard schedules
