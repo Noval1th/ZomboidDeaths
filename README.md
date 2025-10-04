@@ -105,7 +105,7 @@ pause
 
 Replace the `your_*_here` values with your actual credentials.
 
-*As an optional note, use pythonw main.py in your .bat file to hide make this run without a window* 
+*As an optional note, use pythonw main.py in your .bat file to hide make this run without a window. Just also replace pause with exit at the end of the file* 
 
 **Mac/Linux:**
 
