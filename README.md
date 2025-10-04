@@ -4,7 +4,7 @@ Automatically track player deaths on your Project Zomboid server and post notifi
 ![Discord Example](https://img.shields.io/badge/Discord-Webhook-7289DA?style=for-the-badge&logo=discord&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-[![Twitter](https://img.shields.io/badge/Twitter-@yourhandle-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://x.com/n0valith)
+[![Twitter](https://img.shields.io/badge/Twitter-@n0valith-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://x.com/n0valith)
 
 ---
 
