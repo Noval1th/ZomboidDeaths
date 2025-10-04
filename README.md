@@ -106,7 +106,7 @@ pythonw main.py
 
 ```vbscript
 Set WshShell = CreateObject("WScript.Shell")
-WshShell.Run "cmd /c start_monitor.bat", 0, False
+WshShell.Run "cmd /c ""C:\full\path\to\zomboid-death-monitor\start_monitor.bat""", 0, False
 Set WshShell = Nothing
 ```
 
