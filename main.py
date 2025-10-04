@@ -61,11 +61,11 @@ def get_death_emoji(count):
     """Get emoji based on death count"""
     if count == 1:
         return "💀"
-    elif count <= 3:
-        return "☠️"
-    elif count <= 5:
-        return "⚰️"
     elif count <= 10:
+        return "☠️"
+    elif count <= 20:
+        return "⚰️"
+    elif count <= 30:
         return "👻"
     else:
         return "🏴‍☠️"
