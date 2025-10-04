@@ -187,7 +187,7 @@ Have someone die in your server to test it! Within 30 seconds, you should see a 
 
 **To test:** Restart your computer and check Task Scheduler's "Task Status" to verify it's running.
 
-### Mac - Using launchd
+### Mac - Using launchd (NOTE AI Wrote this ENTIRE section with no oversight by me because I don't have access to MacOS to test this process myself)
 
 1. Create a plist file at `~/Library/LaunchAgents/com.zomboid.deathmonitor.plist`:
 
@@ -224,7 +224,7 @@ launchctl load ~/Library/LaunchAgents/com.zomboid.deathmonitor.plist
 launchctl start com.zomboid.deathmonitor
 ```
 
-### Linux - Using systemd
+### Linux - Using systemd (NOTE AI Wrote this ENTIRE section with no oversight by me because I am too lazy to spin up an entire linux environment just to test this process myself)
 
 1. Create a service file at `/etc/systemd/system/zomboid-monitor.service`:
 
@@ -283,8 +283,9 @@ sudo systemctl status zomboid-monitor.service
 ### Finding Your FTP Credentials
 
 **G-Portal:**
-1. Server dashboard → **"FTP"** tab
-2. Copy Host, Port, Username, Password
+1. Server dashboard → Select the gamecloud server in question
+2. On the status page, scroll down to the "Access Data" Section
+3. Copy Host, Port, Username, Password
 
 **Other Hosts:**
 - Check hosting provider's control panel
