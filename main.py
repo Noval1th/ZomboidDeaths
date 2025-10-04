@@ -212,13 +212,32 @@ def get_log_folders_to_check(ftp):
     # Second priority: Find the most recent archived logs_DD-MM folder
     try:
         ftp.cwd(LOG_BASE_PATH)
-        all_items = ftp.nlst()
+        
+        # Try to list directories - use LIST instead of nlst for G-Portal compatibility
+        all_items = []
+        try:
+            # Use LIST and parse the output
+            lines = []
+            ftp.retrlines('LIST', lines.append)
+            
+            for line in lines:
+                # Parse directory names from LIST output
+                # Format varies, but directory names are usually at the end
+                parts = line.split()
+                if len(parts) >= 9:
+                    name = parts[-1]
+                    # Check if it's a directory (starts with 'd' in Unix listing)
+                    if line.startswith('d') and name.startswith('logs_') and '-' in name:
+                        all_items.append(name)
+        except:
+            # If LIST also fails, fall back to nlst
+            all_items = ftp.nlst()
         
         # Filter for logs_DD-MM folders
         log_folders = [item for item in all_items if item.startswith('logs_') and '-' in item]
         
         if log_folders:
-            # Sort to get most recent (this works because DD-MM format sorts correctly within a month)
+            # Sort to get most recent
             log_folders.sort(reverse=True)
             most_recent = log_folders[0]
             folders.append(most_recent)
@@ -239,11 +258,25 @@ def list_user_logs_in_folder(ftp, folder_path):
     try:
         files = []
         ftp.cwd(folder_path)
-        file_list = ftp.nlst()
         
-        for filename in file_list:
-            if filename.endswith('_user.txt'):
-                files.append(filename)
+        # Try using LIST instead of nlst for G-Portal compatibility
+        try:
+            lines = []
+            ftp.retrlines('LIST', lines.append)
+            
+            for line in lines:
+                # Parse filenames from LIST output
+                parts = line.split()
+                if len(parts) >= 9:
+                    filename = parts[-1]
+                    if filename.endswith('_user.txt'):
+                        files.append(filename)
+        except:
+            # Fallback to nlst if available
+            file_list = ftp.nlst()
+            for filename in file_list:
+                if filename.endswith('_user.txt'):
+                    files.append(filename)
         
         return sorted(files)  # Sort to process in chronological order
     except Exception as e:
