@@ -54,8 +54,8 @@ sudo apt install python3 python3-pip
 
 **Option A: Using Git**
 ```bash
-git clone https://github.com/yourusername/zomboid-death-monitor.git
-cd zomboid-death-monitor
+git clone https://github.com/Noval1th/ZomboidDeaths.git
+cd ZomboidDeaths
 ```
 
 **Option B: Manual Download**
